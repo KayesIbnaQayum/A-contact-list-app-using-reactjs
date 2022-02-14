@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-export default class addContact extends Component{
+export default class updateContact extends Component{
 
      onTrigger = (val) => {
         this.props.parentCallback(val);

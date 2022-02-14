@@ -1,14 +1,29 @@
-import React, {Component} from 'react';
-import AddContact from './addContact'
-class AppCorePage extends Component{
-    render(){
+import React, {Component, useState, useEffect } from 'react';
+import AddContact from './addContact';
+import webApi from '../api/webApi';
+const AppCorePage=()=>{
+    const [displayAddContactpage, setdisplayAddContactpage] = useState("none");
+    const [displayIndexPage, setdisplayIndexPage] = useState("");
+
+    const handleCallback = (childData) =>{
+        setdisplayAddContactpage(childData);
+        setdisplayIndexPage("");
+    }
+
+    const callApi=()=>{
+        console.log(webApi.fetchData());
+    }
+   
         return (
             <div>
+            <div style={{display:displayAddContactpage}}>
+                <AddContact parentCallback = {handleCallback}/>
+            </div>
+           
+            
 
-            <AddContact />
 
-
-            <div class="container">
+            <div class="container" style={{display:displayIndexPage}}>
                 <div class="row justify-content-between p-2">
                     {/* top bar*/ }
                     <div class="col-5" >
@@ -31,7 +46,7 @@ class AppCorePage extends Component{
                     </div>
 
                     <div className="col-2">
-                        <button type="button" class="btn btn-primary shadow p-2 rounded">Create Contact</button>
+                        <button type="button" class="btn btn-primary shadow p-2 rounded" onClick={() => {setdisplayAddContactpage(""); setdisplayIndexPage("none")}}>Create Contact</button>
                     </div>
                 </div>
 
@@ -47,7 +62,7 @@ class AppCorePage extends Component{
                     </div>
 
                     <div className="col-2"  style={{flexDirection:'row', display:'flex'}}>
-                            <button type="button" class="btn btn-secondary" style={{marginRight:10}}>Modify</button>
+                            <button type="button" class="btn btn-secondary" style={{marginRight:10}} onClick={()=>{callApi()}}>Modify</button>
                             <button type="button" class="btn btn-danger">Delete</button>
                     </div>
                 </div>
@@ -86,7 +101,7 @@ class AppCorePage extends Component{
                         </div>
                     </div>
                     <div class="col-sm-1">
-                        {this.imageComponent()}
+                        {imageComponent()}
                     </div>
                     <div class="col-sm-2">
                         asdsad
@@ -113,28 +128,28 @@ class AppCorePage extends Component{
             </div>
             </div>
         )
-    }
 
-    imageComponent(img = null){
-        if(img == null){
-            const colorArr = ['#D98880','#F5B7B1','#D7BDE2','#A9CCE3','#AED6F1','#A3E4D7','#AED6F1','#F9E79F','#AEB6BF'];
-            let min = 1;
-            let max = 9;
-            let rand =  min + (Math.random() * (max-min));
-            
-            let choosenColor = colorArr[parseInt(rand)];
-            return (
-                <div class="rounded-circle" style={{height:40, width:40, backgroundColor:choosenColor, alignItems:'center'}}>
-                    <p style={{textAlign:'center'}}>AB</p>
-                </div>
-            );
-        }
+}
+
+function imageComponent(img = null){
+    if(img == null){
+        const colorArr = ['#D98880','#F5B7B1','#D7BDE2','#A9CCE3','#AED6F1','#A3E4D7','#AED6F1','#F9E79F','#AEB6BF'];
+        let min = 1;
+        let max = 9;
+        let rand =  min + (Math.random() * (max-min));
         
-        
+        let choosenColor = colorArr[parseInt(rand)];
         return (
-            <img src="https://www.w3schools.com/bootstrap4/newyork.jpg" class="rounded-circle" alt="Italian Trulli" style={{height:40, width:40}}/>
+            <div class="rounded-circle" style={{height:40, width:40, backgroundColor:choosenColor, alignItems:'center'}}>
+                <p style={{textAlign:'center'}}>AB</p>
+            </div>
         );
     }
+    
+    
+    return (
+        <img src="https://www.w3schools.com/bootstrap4/newyork.jpg" class="rounded-circle" alt="Italian Trulli" style={{height:40, width:40}}/>
+    );
 }
 
 export default AppCorePage;
