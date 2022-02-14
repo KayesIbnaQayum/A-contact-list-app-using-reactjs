@@ -1,21 +1,53 @@
 import React, {Component, useState, useEffect } from 'react';
 import AddContact from './addContact';
-import webApi from '../api/webApi';
 const AppCorePage=()=>{
     const [displayAddContactpage, setdisplayAddContactpage] = useState("none");
     const [displayIndexPage, setdisplayIndexPage] = useState("");
-
+    const [data, setdata] = useState(0);
+    const [loading, setloading] = useState(true);
     const handleCallback = (childData) =>{
         setdisplayAddContactpage(childData);
         setdisplayIndexPage("");
     }
 
-    const callApi=()=>{
-        console.log(webApi.fetchData());
+
+    useEffect(() => {
+        if(loading){
+            fetchData();
+        }
+      
+    });
+
+    const fetchData=()=>{
+        try {
+            fetch('/database.php', {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    token: "asd"
+                })
+                }).then(response => response.json() )
+                .then(data => {
+                    console.log(data); 
+                    setdata(data);
+                     setloading(false);
+                     
+                })
+
+
+        } catch (error) {
+            console.log("database update api failed:" + error);
+        }
     }
-   
-        return (
+
+    
+    
+    return (
             <div>
+
             <div style={{display:displayAddContactpage}}>
                 <AddContact parentCallback = {handleCallback}/>
             </div>
@@ -24,6 +56,8 @@ const AppCorePage=()=>{
 
 
             <div class="container" style={{display:displayIndexPage}}>
+                
+                
                 <div class="row justify-content-between p-2">
                     {/* top bar*/ }
                     <div class="col-5" >
@@ -62,7 +96,7 @@ const AppCorePage=()=>{
                     </div>
 
                     <div className="col-2"  style={{flexDirection:'row', display:'flex'}}>
-                            <button type="button" class="btn btn-secondary" style={{marginRight:10}} onClick={()=>{callApi()}}>Modify</button>
+                            <button type="button" class="btn btn-secondary" style={{marginRight:10}} onClick={()=>{fetchData()}}>Modify</button>
                             <button type="button" class="btn btn-danger">Delete</button>
                     </div>
                 </div>
@@ -94,41 +128,57 @@ const AppCorePage=()=>{
                     </div>
                 </div>
 
-                <div class="row shadow-sm p-3 mb-1 bg-white rounded" style={{height:70,justifyContent: 'center', alignItems: 'center', borderBottom: "1px solid rgb(212, 212, 212)"}}>
-                    <div class="col-sm-1">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"/>
-                        </div>
-                    </div>
-                    <div class="col-sm-1">
-                        {imageComponent()}
-                    </div>
-                    <div class="col-sm-2">
-                        asdsad
-                    </div>
-                    <div class="col-sm-2">
-                        Company
-                    </div>
-                    <div class="col-sm-2">
-                        Address
-                    </div>
-                    <div class="col-sm-2">
-                        TelePhone
-                    </div>
-                    <div class="col-sm-1">
-                        Email
-                    </div>
-                    <div class="col-sm-1">
-                        Mobile
-                    </div>
-            
+                {loading==false ? (
+                <div>
+                    {data.map((item)=> 
+                    showData(item))}
                 </div>
+            ):(
+                <div>
+                    <p>Loading</p>
+                </div>
+            )}
+               
 
 
             </div>
             </div>
         )
 
+}
+
+function showData(item){
+    return (
+        <div class="row shadow-sm p-3 mb-1 bg-white rounded" style={{height:70,justifyContent: 'center', alignItems: 'center', borderBottom: "1px solid rgb(212, 212, 212)"}}>
+        <div class="col-sm-1">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"/>
+            </div>
+        </div>
+        <div class="col-sm-1">
+            {imageComponent()}
+        </div>
+        <div class="col-sm-2">
+            {item.id}
+        </div>
+        <div class="col-sm-2">
+            Company
+        </div>
+        <div class="col-sm-2">
+            Address
+        </div>
+        <div class="col-sm-2">
+            TelePhone
+        </div>
+        <div class="col-sm-1">
+            Email
+        </div>
+        <div class="col-sm-1">
+            Mobile
+        </div>
+
+    </div>
+    )
 }
 
 function imageComponent(img = null){

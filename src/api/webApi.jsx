@@ -4,11 +4,11 @@ class Api extends Component{
 
     fetchData=()=>{
         try {
-            fetch('http://localhost/databaseCommunication/database.php', {
+            fetch('/database.php', {
                 method: 'POST',
                 headers: {
                     Accept: 'application/json',
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
                     token: "asd"
