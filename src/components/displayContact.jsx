@@ -1,8 +1,13 @@
 import React, {Component} from 'react';
-
+import AddContact from './addContact'
 class AppCorePage extends Component{
     render(){
         return (
+            <div>
+
+            <AddContact />
+
+
             <div class="container">
                 <div class="row justify-content-between p-2">
                     {/* top bar*/ }
@@ -105,6 +110,7 @@ class AppCorePage extends Component{
                 </div>
 
 
+            </div>
             </div>
         )
     }
