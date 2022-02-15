@@ -1,15 +1,19 @@
 import React, {Component, useState, useEffect } from 'react';
 import AddContact from './addContact';
+import UpdateContact from './updateContact';
+
+
 const AppCorePage=()=>{
     const [displayAddContactpage, setdisplayAddContactpage] = useState("none");
+    const [displayUpdatePage, setdisplayUpdatePage] = useState("none");
     const [displayIndexPage, setdisplayIndexPage] = useState("");
     const [data, setdata] = useState(0);
+    
     const [loading, setloading] = useState(true);
     const handleCallback = (childData) =>{
         setdisplayAddContactpage(childData);
         setdisplayIndexPage("");
     }
-
 
     useEffect(() => {
         if(loading){
@@ -50,6 +54,10 @@ const AppCorePage=()=>{
 
             <div style={{display:displayAddContactpage}}>
                 <AddContact parentCallback = {handleCallback}/>
+            </div>
+
+            <div style={{display:displayUpdatePage}}>
+                <UpdateContact parentCallback = {handleCallback}/>
             </div>
            
             
@@ -96,19 +104,18 @@ const AppCorePage=()=>{
                     </div>
 
                     <div className="col-2"  style={{flexDirection:'row', display:'flex'}}>
-                            <button type="button" class="btn btn-secondary" style={{marginRight:10}} onClick={()=>{fetchData()}}>Modify</button>
                             <button type="button" class="btn btn-danger">Delete</button>
                     </div>
                 </div>
 
                 <div class="row shadow-sm p-3 mb-2 bg-white rounded" style={{fontWeight:'bold'}}>
                 <div class="col-sm-1">
-                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"/>
+                    <input class="form-check-input" type="checkbox"  value="" id="flexCheckDefault"/>
                     </div>
                     <div class="col-sm-1">
                         Pic
                     </div>
-                    <div class="col-sm-2">
+                    <div class="col-sm-1">
                         Name
                     </div>
                     <div class="col-sm-2">
@@ -125,6 +132,9 @@ const AppCorePage=()=>{
                     </div>
                     <div class="col-sm-1">
                         Mobile
+                    </div>
+                    <div class="col-sm-1">
+                        Menu
                     </div>
                 </div>
 
@@ -159,7 +169,7 @@ function showData(item){
         <div class="col-sm-1 text-break">
             {imageComponent(nameFirstLastChar)}
         </div>
-        <div class="col-sm-2 text-break">
+        <div class="col-sm-1 text-break">
             {item.Fname + " " + item.Lname}
         </div>
         <div class="col-sm-2 text-break">
@@ -177,16 +187,21 @@ function showData(item){
         <div class="col-sm-1 text-break">
             {item.mobile}
         </div>
+        <div class="col-sm-1 text-break">
+            <button type="button" class="btn btn-secondary" >Modify</button>
+      </div>
 
     </div>
     )
 }
 
+
+
 function imageComponent(img){
 
-        const colorArr = ['#D98880','#F5B7B1','#D7BDE2','#A9CCE3','#AED6F1','#A3E4D7','#AED6F1','#F9E79F','#AEB6BF'];
+        const colorArr = ['#D98880','#F5B7B1','#D7BDE2','#A9CCE3','#AED6F1','#A3E4D7','#AED6F1','#F9E79F','#AEB6BF','#D98880','#F5B7B1','#D7BDE2','#A9CCE3','#AED6F1','#A3E4D7','#AED6F1','#F9E79F','#AEB6BF'];
         let min = 1;
-        let max = 9;
+        let max = 18;
         let rand =  min + (Math.random() * (max-min));
         
         let choosenColor = colorArr[parseInt(rand)];
