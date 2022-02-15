@@ -5,7 +5,7 @@ import UpdateContact from './updateContact';
 
 function AppCorePage(){
     const [displayAddContactpage, setdisplayAddContactpage] = useState("none");
-    const [displayUpdatePage, setdisplayUpdatePage] = useState("block");
+    const [displayUpdatePage, setdisplayUpdatePage] = useState("none");
     const [displayIndexPage, setdisplayIndexPage] = useState("");
     const [data, setdata] = useState(0);
     const [dataFilterMenuCountry, setdataFilterMenuCountry] = useState(0);
@@ -290,9 +290,6 @@ function AppCorePage(){
                     <div class="row mb-3">
                         <div class="col">
                         <input type="text" class="form-control" name="fname" placeholder="First name" value={fname} onChange={(val)=> setfname(val.value)} required/>
-                        <div class="invalid-feedback">
-                        Please provide a valid city.
-                        </div>
                         </div>
                         <div class="col">
                         <input type="text" class="form-control" name="lname" placeholder="Last name" value={lname} onChange={(val)=> setlname(val.value)}  required/>

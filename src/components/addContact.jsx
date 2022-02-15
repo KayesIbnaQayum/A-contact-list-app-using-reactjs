@@ -18,7 +18,6 @@ export default class addContact extends Component{
             city: "",
             states: "",
             country: "",
-            file: "",
             showErrorMsg: "none",
             showSuccessMsg: "none",
         };
@@ -76,9 +75,6 @@ export default class addContact extends Component{
                     <div class="row mb-3">
                         <div class="col">
                         <input type="text" class="form-control" placeholder="First name" onChange={(val)=> this.setState({fname: val.target.value})} required/>
-                        <div class="invalid-feedback">
-                        Please provide a valid city.
-                        </div>
                         </div>
                         <div class="col">
                         <input type="text" class="form-control" placeholder="Last name" onChange={(val)=> this.setState({lname: val.target.value})} required/>
@@ -118,9 +114,7 @@ export default class addContact extends Component{
                         <input type="text" class="form-control" onChange={(val)=> this.setState({country: val.target.value})} placeholder="Country"/>
                         </div>
                     </div>
-                    <div className="row mb-3">
-                        <input type="file" id="myFile" onChange={(val)=> this.setState({file: val.target.value})} name="filename"/>
-                    </div>
+
                     <div style={{color:'green', display:this.state.showSuccessMsg}}>Contact Added</div>
                     <div style={{color:'red', display:this.state.showErrorMsg}}>Upload Failed</div>
                     <div className="row mb-3 justify-content-between">
