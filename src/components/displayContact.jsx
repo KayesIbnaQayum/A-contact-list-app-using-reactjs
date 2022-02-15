@@ -305,12 +305,12 @@ function AppCorePage(){
                         <input type="text" class="form-control" name="telephone" value={telephone} onChange={(val)=> settelephone(val.value)}  placeholder="Telephone"/>
                         </div>
                         <div class="col">
-                        <input type="text" class="form-control" name="mobile" value={mobile} onChange={(val)=> setmobile(val.value)} placeholder="Mobile"/>
+                        <input type="text" class="form-control" name="mobile" value={mobile} onChange={(val)=> setmobile(val.value)} placeholder="Mobile" required/>
                         </div>
                     </div>
                     <div className="row mb-3">
                         <div className="col">
-                            <input type="email" class="form-control" name="email" value={email} onChange={(val)=> setemail(val.value)} placeholder="Email"/>
+                            <input type="email" class="form-control" name="email" value={email} onChange={(val)=> setemail(val.value)} placeholder="Email" required/>
                         </div>
                     </div>
                     <div className="row mb-3">

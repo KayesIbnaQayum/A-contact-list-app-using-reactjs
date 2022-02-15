@@ -90,12 +90,12 @@ export default class addContact extends Component{
                         <input type="text" class="form-control" onChange={(val)=> this.setState({telephone: val.target.value})} placeholder="Telephone"/>
                         </div>
                         <div class="col">
-                        <input type="text" class="form-control" onChange={(val)=> this.setState({mobile: val.target.value})} placeholder="Mobile"/>
+                        <input type="text" class="form-control" onChange={(val)=> this.setState({mobile: val.target.value})} placeholder="Mobile" required/>
                         </div>
                     </div>
                     <div className="row mb-3">
                         <div className="col">
-                            <input type="email" class="form-control" onChange={(val)=> this.setState({email: val.target.value})} placeholder="Email"/>
+                            <input type="email" class="form-control" onChange={(val)=> this.setState({email: val.target.value})} placeholder="Email" required/>
                         </div>
                     </div>
                     <div className="row mb-3">
