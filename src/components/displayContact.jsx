@@ -8,10 +8,14 @@ const AppCorePage=()=>{
     const [displayUpdatePage, setdisplayUpdatePage] = useState("none");
     const [displayIndexPage, setdisplayIndexPage] = useState("");
     const [data, setdata] = useState(0);
+    const [dataFilterMenuCountry, setdataFilterMenuCountry] = useState(0);
+    const [dataFilterMenuState, setdataFilterMenuState] = useState(0);
+    const [dataFilterMenuCity, setdataFilterMenuCity] = useState(0);
 
     const [dataID, setDataID] = useState(1);
 
     const [loading, setloading] = useState(true);
+    const [loadingFilterMenu, setloadingFilterMenu] = useState(true);
     const handleCallback = (childData) =>{
         setdisplayAddContactpage(childData);
         setdisplayIndexPage("");
@@ -20,12 +24,39 @@ const AppCorePage=()=>{
     useEffect(() => {
         if(loading){
             fetchData();
+            filterData();
         }
       
-    },[loading]);
+    });
+
+        let countriesList = dataFilterMenuCountry.length > 0
+                && dataFilterMenuCountry.map((item, i) => {
+            return (
+            
+                <option key={i} value={item['country']}>{item['country']}</option>
+            )
+            }, this);
+
+            let stateList = dataFilterMenuState.length > 0
+            && dataFilterMenuState.map((item, i) => {
+
+            return (
+
+            <option key={i} value={item['states']}>{item['states']}</option>
+            )
+            }, this);
+
+            let cityList = dataFilterMenuCity.length > 0
+            && dataFilterMenuCity.map((item, i) => {
+            return (
+
+            <option key={i} value={item['city']}>{item['city']}</option>
+            )
+            }, this);
 
 
-    const fetchData=()=>{
+
+    const fetchData=(tableName,data)=>{
         try {
             fetch('/getFromDatabase.php', {
                 method: 'POST',
@@ -34,14 +65,17 @@ const AppCorePage=()=>{
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    token: "asd"
+                    data: data,
+                    tableName:tableName
                 })
                 }).then(response => response.json() )
                 .then(data => {
-                     
-                    setdata(data);
-                     setloading(false);
-                     
+                     if(data.length > 0){
+                        setdata(data);
+                    
+                        setloading(false);
+                     }
+
                 })
 
 
@@ -64,8 +98,32 @@ const AppCorePage=()=>{
                 }).then(response => response.json() )
                 .then(data => {
                     fetchData();
-                     setloading(false);
                      
+                })
+
+
+        } catch (error) {
+            console.log("database update api failed:" + error);
+        }
+    }
+
+    const filterData=(fieldName,filterValue)=>{
+        try {
+            fetch('/getFilters.php', {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    id:0
+                })
+                }).then(response => response.json() )
+                .then(data => {
+                    setdataFilterMenuCountry(data[0]);
+                    setdataFilterMenuState(data[1]);
+                    setdataFilterMenuCity(data[2]);
+                    setloadingFilterMenu(false);
                 })
 
 
@@ -79,7 +137,7 @@ const AppCorePage=()=>{
         let nameFirstLastChar = (item.Fname).charAt(0).toUpperCase()+(item.Lname).charAt(0).toUpperCase();
         return (
             <div class="row shadow-sm p-3 bg-white rounded" style={{minHeight:70,justifyContent: 'center', alignItems: 'center', borderBottom: "1px solid rgb(212, 212, 212)"}}>
-     
+   
             <div class="col-sm-1 text-break">
                 {imageComponent(nameFirstLastChar)}
             </div>
@@ -90,7 +148,7 @@ const AppCorePage=()=>{
                 {item.company}
             </div>
             <div class="col-sm-2 text-break">
-                {item.houseNo +" "+item.states+" "+item.city+" "+item.country}
+                {"house-"+item.houseNo +" , state: "+item.states+" , city: "+item.city+" , country: "+item.country}
             </div>
             <div class="col-sm-1 text-break">
                 {item.telephone}
@@ -114,16 +172,11 @@ const AppCorePage=()=>{
     
     return (
             <div>
-
+   
             <div style={{display:displayAddContactpage}}>
                 <AddContact parentCallback = {handleCallback}/>
             </div>
 
-            <div style={{display:displayUpdatePage}}>
-                <UpdateContact parentCallback = {handleCallback}/>
-            </div>
-           
-            
 
 
             <div class="container" style={{display:displayIndexPage}}>
@@ -156,27 +209,21 @@ const AppCorePage=()=>{
                 </div>
 
                 <div class="row justify-content-between p-2">
-                    <div className="col-3" style={{display:'flex', flexDirection:'row'}}>
-                    <p>Filter By:</p> 
-                        <select class="form-select" aria-label=".form-select-lg example" style={{width:150, borderRadius:50, marginLeft:20}}>
-                        <option selected>All Contact</option>
-                        <option value="1">Country</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
+                    <div className="col-12" style={{display:'flex', flexDirection:'row'}}>
+                    <p>Filter By Country:</p> 
+                        <select onChange={e => fetchData("country",e.target.value)} class="form-select" aria-label=".form-select-lg example" style={{width:150, borderRadius:50, marginLeft:20}}>
+                        <option value="" selected>All Contact</option>
+                            {countriesList}
                         </select>
-                        <p>Filter By:</p> 
-                        <select class="form-select" aria-label=".form-select-lg example" style={{width:150, borderRadius:50, marginLeft:20}}>
-                        <option selected>All Contact</option>
-                        <option value="1">Country</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
+                        <p>Filter By State:</p> 
+                        <select onChange={e => fetchData("states",e.target.value)}  class="form-select" aria-label=".form-select-lg example" style={{width:150, borderRadius:50, marginLeft:20}}>
+                        <option value="" selected>All Contact</option>
+                        {stateList}
                         </select>
-                        <p>Filter By:</p> 
-                        <select class="form-select" aria-label=".form-select-lg example" style={{width:150, borderRadius:50, marginLeft:20}}>
-                        <option selected>All Contact</option>
-                        <option value="1">Country</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
+                        <p>Filter By City:</p> 
+                        <select  onChange={e => fetchData("city",e.target.value)}  class="form-select" aria-label=".form-select-lg example" style={{width:150, borderRadius:50, marginLeft:20}}>
+                        <option value="" selected>All Contact</option>
+                        {cityList}
                         </select>
                     </div>
 
@@ -230,7 +277,6 @@ const AppCorePage=()=>{
         )
 
 }
-
 
 
 
