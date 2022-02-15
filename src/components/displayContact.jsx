@@ -31,7 +31,7 @@ const AppCorePage=()=>{
                 })
                 }).then(response => response.json() )
                 .then(data => {
-                    console.log(data); 
+                     
                     setdata(data);
                      setloading(false);
                      
@@ -117,10 +117,10 @@ const AppCorePage=()=>{
                     <div class="col-sm-2">
                         Address
                     </div>
-                    <div class="col-sm-2">
+                    <div class="col-sm-1">
                         TelePhone
                     </div>
-                    <div class="col-sm-1">
+                    <div class="col-sm-2">
                         Email
                     </div>
                     <div class="col-sm-1">
@@ -148,41 +148,42 @@ const AppCorePage=()=>{
 }
 
 function showData(item){
+    let nameFirstLastChar = (item.Fname).charAt(0).toUpperCase()+(item.Lname).charAt(0).toUpperCase();
     return (
-        <div class="row shadow-sm p-3 bg-white rounded" style={{height:70,justifyContent: 'center', alignItems: 'center', borderBottom: "1px solid rgb(212, 212, 212)"}}>
+        <div class="row shadow-sm p-3 bg-white rounded" style={{minHeight:70,justifyContent: 'center', alignItems: 'center', borderBottom: "1px solid rgb(212, 212, 212)"}}>
         <div class="col-sm-1">
         <div class="form-check">
             <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"/>
             </div>
         </div>
-        <div class="col-sm-1">
-            {imageComponent()}
+        <div class="col-sm-1 text-break">
+            {imageComponent(nameFirstLastChar)}
         </div>
-        <div class="col-sm-2">
-            {item.id}
+        <div class="col-sm-2 text-break">
+            {item.Fname + " " + item.Lname}
         </div>
-        <div class="col-sm-2">
-            Company
+        <div class="col-sm-2 text-break">
+            {item.company}
         </div>
-        <div class="col-sm-2">
-            Address
+        <div class="col-sm-2 text-break">
+            {item.houseNo +" "+item.states+" "+item.city+" "+item.country}
         </div>
-        <div class="col-sm-2">
-            TelePhone
+        <div class="col-sm-1 text-break">
+            {item.telephone}
         </div>
-        <div class="col-sm-1">
-            Email
+        <div class="col-sm-2 text-break">
+            {item.email}
         </div>
-        <div class="col-sm-1">
-            Mobile
+        <div class="col-sm-1 text-break">
+            {item.mobile}
         </div>
 
     </div>
     )
 }
 
-function imageComponent(img = null){
-    if(img == null){
+function imageComponent(img){
+
         const colorArr = ['#D98880','#F5B7B1','#D7BDE2','#A9CCE3','#AED6F1','#A3E4D7','#AED6F1','#F9E79F','#AEB6BF'];
         let min = 1;
         let max = 9;
@@ -191,15 +192,13 @@ function imageComponent(img = null){
         let choosenColor = colorArr[parseInt(rand)];
         return (
             <div class="rounded-circle" style={{height:40, width:40, backgroundColor:choosenColor, alignItems:'center'}}>
-                <p style={{textAlign:'center'}}>AB</p>
+             
+                <div style={{textAlign:'center', padding:5}}>{img}</div>
+
+                
             </div>
         );
-    }
-    
-    
-    return (
-        <img src="https://www.w3schools.com/bootstrap4/newyork.jpg" class="rounded-circle" alt="Italian Trulli" style={{height:40, width:40}}/>
-    );
+ 
 }
 
 export default AppCorePage;
