@@ -20,7 +20,7 @@ const AppCorePage=()=>{
 
     const fetchData=()=>{
         try {
-            fetch('/database.php', {
+            fetch('/getFromDatabase.php', {
                 method: 'POST',
                 headers: {
                     Accept: 'application/json',
@@ -149,7 +149,7 @@ const AppCorePage=()=>{
 
 function showData(item){
     return (
-        <div class="row shadow-sm p-3 mb-1 bg-white rounded" style={{height:70,justifyContent: 'center', alignItems: 'center', borderBottom: "1px solid rgb(212, 212, 212)"}}>
+        <div class="row shadow-sm p-3 bg-white rounded" style={{height:70,justifyContent: 'center', alignItems: 'center', borderBottom: "1px solid rgb(212, 212, 212)"}}>
         <div class="col-sm-1">
         <div class="form-check">
             <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"/>

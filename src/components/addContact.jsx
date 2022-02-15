@@ -1,6 +1,9 @@
 import React, {Component} from 'react';
-
+import {Helmet} from "react-helmet";
+import webApi from '../api/webApi';
 export default class addContact extends Component{
+
+
 
     constructor(props) {
         super(props);
@@ -16,14 +19,40 @@ export default class addContact extends Component{
             states: "",
             country: "",
             file: "",
+            showErrorMsg: "none",
+            showSuccessMsg: "none",
         };
+
+
       }
 
 
 
       onSubmitForm=(event)=>{
           event.preventDefault();
-            console.log(this.state);
+         try {
+            fetch('/addContact.php', {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    data: this.state
+                })
+                }).then(response => response.json() )
+                .then(data => {
+                   if(data == true){
+                        this.setState({showSuccessMsg: 'block', showErrorMsg: 'none'});
+                   }else{
+                        this.setState({showErrorMsg: 'block', showSuccessMsg: 'none'});
+                   }
+                })
+
+
+        } catch (error) {
+            console.log("database update api failed:" + error);
+        }
       }
 
      onTrigger = (val) => {
@@ -33,6 +62,8 @@ export default class addContact extends Component{
     render(){
         return (
             <div className='container'>
+                <div>
+                </div>
                 <div class="row justify-content-between p-2">
                     <div className="col-2">
                         <h2>Add Contact</h2>
@@ -41,10 +72,13 @@ export default class addContact extends Component{
 
                 <div className="row justify-content-md-center">
                     <div className="col-8">
-                    <form className="shadow p-4 rounded" onSubmit={this.onSubmitForm}>
+                    <form className="shadow p-4 rounded needs-validation" id="form" onSubmit={this.onSubmitForm} novalidate>
                     <div class="row mb-3">
                         <div class="col">
                         <input type="text" class="form-control" placeholder="First name" onChange={(val)=> this.setState({fname: val.target.value})} required/>
+                        <div class="invalid-feedback">
+                        Please provide a valid city.
+                        </div>
                         </div>
                         <div class="col">
                         <input type="text" class="form-control" placeholder="Last name" onChange={(val)=> this.setState({lname: val.target.value})} required/>
@@ -65,7 +99,7 @@ export default class addContact extends Component{
                     </div>
                     <div className="row mb-3">
                         <div className="col">
-                            <input type="email" class="form-control" onChange={(val)=> this.setState({email: val.target.value})} placeholder="Email" required/>
+                            <input type="email" class="form-control" onChange={(val)=> this.setState({email: val.target.value})} placeholder="Email"/>
                         </div>
                     </div>
                     <div className="row mb-3">
@@ -87,6 +121,8 @@ export default class addContact extends Component{
                     <div className="row mb-3">
                         <input type="file" id="myFile" onChange={(val)=> this.setState({file: val.target.value})} name="filename"/>
                     </div>
+                    <div style={{color:'green', display:this.state.showSuccessMsg}}>Contact Added</div>
+                    <div style={{color:'red', display:this.state.showErrorMsg}}>Upload Failed</div>
                     <div className="row mb-3 justify-content-between">
                         <div className="col-sm-1">
                             <button type="submit" class="btn btn-success shadow p-2 rounded" style={{marginRight:10}}>Save</button>

@@ -2,20 +2,20 @@ import React, {Component} from 'react';
 
 class Api extends Component{
 
-    fetchData=()=>{
+    addData=(data)=>{
         try {
-            fetch('/database.php', {
+            fetch('/addContact.php', {
                 method: 'POST',
                 headers: {
                     Accept: 'application/json',
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    token: "asd"
+                    data: data
                 })
                 }).then(response => response.json() )
                 .then(data => {
-                    return data;
+                   return data;
                 })
 
 
