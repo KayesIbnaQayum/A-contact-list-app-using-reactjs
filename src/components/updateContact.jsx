@@ -23,15 +23,40 @@ export default class updateContact extends Component{
             showSuccessMsg: "none",
         };
 
-
+        this.fetchData();
       }
+
+
+
+    fetchData=()=>{
+        console.log("-----");
+        try {
+            fetch('/getFromDatabaseUpdatePage.php', {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    id: this.props.dataID
+                })
+                }).then(response => response.json() )
+                .then(data => {
+                    console.log(data);
+                })
+
+
+        } catch (error) {
+            console.log("database update api failed:" + error);
+        }
+    }
 
 
 
       onSubmitForm=(event)=>{
           event.preventDefault();
          try {
-            fetch('/addContact.php', {
+            fetch('/getFromDatabaseUpdatePage.php', {
                 method: 'POST',
                 headers: {
                     Accept: 'application/json',
@@ -42,11 +67,12 @@ export default class updateContact extends Component{
                 })
                 }).then(response => response.json() )
                 .then(data => {
-                   if(data == true){
+                    console.log(data);
+                   /*if(data == true){
                         this.setState({showSuccessMsg: 'block', showErrorMsg: 'none'});
                    }else{
                         this.setState({showErrorMsg: 'block', showSuccessMsg: 'none'});
-                   }
+                   }*/
                 })
 
 
@@ -62,11 +88,10 @@ export default class updateContact extends Component{
     render(){
         return (
             <div className='container'>
-                <div>
-                </div>
+
                 <div class="row justify-content-between p-2">
                     <div className="col-2">
-                        <h2>Add Contact</h2>
+                        <h2>Update Contact - {this.props.dataFromParent}</h2>
                     </div>
                 </div>
 

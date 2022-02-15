@@ -8,7 +8,9 @@ const AppCorePage=()=>{
     const [displayUpdatePage, setdisplayUpdatePage] = useState("none");
     const [displayIndexPage, setdisplayIndexPage] = useState("");
     const [data, setdata] = useState(0);
-    
+
+    const [dataID, setDataID] = useState(1);
+
     const [loading, setloading] = useState(true);
     const handleCallback = (childData) =>{
         setdisplayAddContactpage(childData);
@@ -20,7 +22,8 @@ const AppCorePage=()=>{
             fetchData();
         }
       
-    });
+    },[loading]);
+
 
     const fetchData=()=>{
         try {
@@ -47,7 +50,67 @@ const AppCorePage=()=>{
         }
     }
 
+    const deleteData=(id)=>{
+        try {
+            fetch('/deleteFromDatabase.php', {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    id:id
+                })
+                }).then(response => response.json() )
+                .then(data => {
+                    fetchData();
+                     setloading(false);
+                     
+                })
+
+
+        } catch (error) {
+            console.log("database update api failed:" + error);
+        }
+    }
+
     
+    function showData(item){
+        let nameFirstLastChar = (item.Fname).charAt(0).toUpperCase()+(item.Lname).charAt(0).toUpperCase();
+        return (
+            <div class="row shadow-sm p-3 bg-white rounded" style={{minHeight:70,justifyContent: 'center', alignItems: 'center', borderBottom: "1px solid rgb(212, 212, 212)"}}>
+     
+            <div class="col-sm-1 text-break">
+                {imageComponent(nameFirstLastChar)}
+            </div>
+            <div class="col-sm-1 text-break">
+                {item.Fname + " " + item.Lname}
+            </div>
+            <div class="col-sm-2 text-break">
+                {item.company}
+            </div>
+            <div class="col-sm-2 text-break">
+                {item.houseNo +" "+item.states+" "+item.city+" "+item.country}
+            </div>
+            <div class="col-sm-1 text-break">
+                {item.telephone}
+            </div>
+            <div class="col-sm-2 text-break">
+                {item.email}
+            </div>
+            <div class="col-sm-1 text-break">
+                {item.mobile}
+            </div>
+            <div class="col-sm-1 text-break">
+                <button type="button" class="btn btn-secondary" >Modify</button>
+          </div>
+          <div class="col-sm-1 text-break">
+                <button type="button" class="btn btn-danger" onClick={()=>deleteData(item.id)}>Delete</button>
+          </div>
+    
+        </div>
+        )
+    }
     
     return (
             <div>
@@ -101,19 +164,27 @@ const AppCorePage=()=>{
                         <option value="2">Two</option>
                         <option value="3">Three</option>
                         </select>
+                        <p>Filter By:</p> 
+                        <select class="form-select" aria-label=".form-select-lg example" style={{width:150, borderRadius:50, marginLeft:20}}>
+                        <option selected>All Contact</option>
+                        <option value="1">Country</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                        </select>
+                        <p>Filter By:</p> 
+                        <select class="form-select" aria-label=".form-select-lg example" style={{width:150, borderRadius:50, marginLeft:20}}>
+                        <option selected>All Contact</option>
+                        <option value="1">Country</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                        </select>
                     </div>
 
-                    <div className="col-2"  style={{flexDirection:'row', display:'flex'}}>
-                            <button type="button" class="btn btn-danger">Delete</button>
-                    </div>
                 </div>
 
                 <div class="row shadow-sm p-3 mb-2 bg-white rounded" style={{fontWeight:'bold'}}>
-                <div class="col-sm-1">
-                    <input class="form-check-input" type="checkbox"  value="" id="flexCheckDefault"/>
-                    </div>
                     <div class="col-sm-1">
-                        Pic
+                        
                     </div>
                     <div class="col-sm-1">
                         Name
@@ -134,7 +205,10 @@ const AppCorePage=()=>{
                         Mobile
                     </div>
                     <div class="col-sm-1">
-                        Menu
+                      
+                    </div>
+                    <div class="col-sm-1">
+                      
                     </div>
                 </div>
 
@@ -157,43 +231,7 @@ const AppCorePage=()=>{
 
 }
 
-function showData(item){
-    let nameFirstLastChar = (item.Fname).charAt(0).toUpperCase()+(item.Lname).charAt(0).toUpperCase();
-    return (
-        <div class="row shadow-sm p-3 bg-white rounded" style={{minHeight:70,justifyContent: 'center', alignItems: 'center', borderBottom: "1px solid rgb(212, 212, 212)"}}>
-        <div class="col-sm-1">
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"/>
-            </div>
-        </div>
-        <div class="col-sm-1 text-break">
-            {imageComponent(nameFirstLastChar)}
-        </div>
-        <div class="col-sm-1 text-break">
-            {item.Fname + " " + item.Lname}
-        </div>
-        <div class="col-sm-2 text-break">
-            {item.company}
-        </div>
-        <div class="col-sm-2 text-break">
-            {item.houseNo +" "+item.states+" "+item.city+" "+item.country}
-        </div>
-        <div class="col-sm-1 text-break">
-            {item.telephone}
-        </div>
-        <div class="col-sm-2 text-break">
-            {item.email}
-        </div>
-        <div class="col-sm-1 text-break">
-            {item.mobile}
-        </div>
-        <div class="col-sm-1 text-break">
-            <button type="button" class="btn btn-secondary" >Modify</button>
-      </div>
 
-    </div>
-    )
-}
 
 
 
