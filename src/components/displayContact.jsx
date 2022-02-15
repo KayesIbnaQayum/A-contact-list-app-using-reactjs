@@ -136,7 +136,7 @@ const AppCorePage=()=>{
     function showData(item){
         let nameFirstLastChar = (item.Fname).charAt(0).toUpperCase()+(item.Lname).charAt(0).toUpperCase();
         return (
-            <div class="row shadow-sm p-3 bg-white rounded" style={{minHeight:70,justifyContent: 'center', alignItems: 'center', borderBottom: "1px solid rgb(212, 212, 212)"}}>
+            <div class="row shadow p-3 bg-white rounded" style={{minHeight:70,justifyContent: 'center', alignItems: 'center', borderBottom: "1px solid rgb(212, 212, 212)"}}>
    
             <div class="col-sm-1 text-break">
                 {imageComponent(nameFirstLastChar)}
@@ -181,24 +181,8 @@ const AppCorePage=()=>{
 
             <div class="container" style={{display:displayIndexPage}}>
                 
-                
-                <div class="row justify-content-between p-2">
-                    {/* top bar*/ }
-                    <div class="col-5" >
-                       <div class="row justify-content-between">
-                            <div className="col-6">
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="basic-addon1">@</span>
-                                </div>
-                                <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1"/>
-                                </div>
-                            </div>
-                       </div>
-                    </div>
-                </div>
 
-                <div class="row justify-content-between p-2">
+                <div class="row justify-content-between p-2 mt-5">
                     <div className="col-2">
                         <h2>Contact</h2>
                     </div>
@@ -208,7 +192,7 @@ const AppCorePage=()=>{
                     </div>
                 </div>
 
-                <div class="row justify-content-between p-2">
+                <div class="row justify-content-between shadow-sm p-3 bg-white rounded">
                     <div className="col-12" style={{display:'flex', flexDirection:'row'}}>
                     <p>Filter By Country:</p> 
                         <select onChange={e => fetchData("country",e.target.value)} class="form-select" aria-label=".form-select-lg example" style={{width:150, borderRadius:50, marginLeft:20}}>
@@ -229,7 +213,7 @@ const AppCorePage=()=>{
 
                 </div>
 
-                <div class="row shadow-sm p-3 mb-2 bg-white rounded" style={{fontWeight:'bold'}}>
+                <div class="row shadow p-3 mb-3 mt-4 bg-white rounded" style={{fontWeight:'bold'}}>
                     <div class="col-sm-1">
                         
                     </div>
@@ -243,7 +227,7 @@ const AppCorePage=()=>{
                         Address
                     </div>
                     <div class="col-sm-1">
-                        TelePhone
+                        Telephone
                     </div>
                     <div class="col-sm-2">
                         Email
